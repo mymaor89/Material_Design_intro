@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Tabs example</string>
+    <string name="openNav">open</string>
+    <string name="closeNav">close</string>
 </resources>

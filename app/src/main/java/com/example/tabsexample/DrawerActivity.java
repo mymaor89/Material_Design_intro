@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -33,12 +35,26 @@ public class DrawerActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                FragmentManager fm;
+                FragmentTransaction ft;
                 switch (item.getItemId()) {
                     case R.id.nav_hardware:
-                        Toast.makeText(DrawerActivity.this, "hardware", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(DrawerActivity.this, "hardware", Toast.LENGTH_LONG).show();
+                        fm = getSupportFragmentManager();
+                        HardwareFragment hf = new HardwareFragment();
+                        ft = fm.beginTransaction();
+                        ft.replace(R.id.frag_container, hf);
+                        ft.addToBackStack(null);
+                        ft.commit();
                         break;
                     case R.id.nav_software:
-                        Toast.makeText(DrawerActivity.this, "software", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(DrawerActivity.this, "software", Toast.LENGTH_LONG).show();
+                        fm = getSupportFragmentManager();
+                        SoftwareFragment sf = new SoftwareFragment();
+                        ft = fm.beginTransaction();
+                        ft.replace(R.id.frag_container, sf);
+                        ft.addToBackStack(null);
+                        ft.commit();
                         break;
                     case R.id.nav_lecturer:
                         Toast.makeText(DrawerActivity.this, "lecturer", Toast.LENGTH_LONG).show();

@@ -17,7 +17,6 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
-import com.google.firebase.firestore.FirestoreRegistrar;
 import com.google.firebase.firestore.Query;
 
 
@@ -55,27 +54,27 @@ public class SoftwareFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        recyclerView = (RecyclerView) getView().findViewById(R.id.list_software);
+        recyclerView = getView().findViewById(R.id.list_software);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.setFirestoreSettings(new FirebaseFirestoreSettings.Builder().setPersistenceEnabled(false).build());
-        Query query = firebaseFirestore.getInstance().collection("Issues");
-        FirestoreRecyclerOptions<issueModel> options = new FirestoreRecyclerOptions.Builder<issueModel>()
-                .setQuery(query,issueModel.class).build();
-        adapter = new FirestoreRecyclerAdapter<issueModel, issueViewHolder>(options) {
+        Query query = FirebaseFirestore.getInstance().collection("Issues");
+        FirestoreRecyclerOptions<IssueModel> options = new FirestoreRecyclerOptions.Builder<IssueModel>()
+                .setQuery(query, IssueModel.class).build();
+        adapter = new FirestoreRecyclerAdapter<IssueModel, IssueViewHolder>(options) {
 
             @NonNull
             @Override
-            public issueViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            public IssueViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_issue,parent,false);
-                return new issueViewHolder(view);
+                return new IssueViewHolder(view);
             }
 
             @Override
-            protected void onBindViewHolder(@NonNull issueViewHolder holder, int position, @NonNull issueModel model) {
+            protected void onBindViewHolder(@NonNull IssueViewHolder holder, int position, @NonNull IssueModel model) {
                 holder.list_reporter.setText(model.getReporter());
                 holder.list_title.setText(model.getTitle());
             }
@@ -87,10 +86,11 @@ public class SoftwareFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    private class issueViewHolder extends RecyclerView.ViewHolder {
+    private class IssueViewHolder extends RecyclerView.ViewHolder {
         private TextView list_title;
         private TextView list_reporter;
-        public issueViewHolder(@NonNull View itemView) {
+
+        public IssueViewHolder(@NonNull View itemView) {
             super(itemView);
             list_title = itemView.findViewById(R.id.tv_title);
             list_reporter = itemView.findViewById(R.id.tv_reporter);

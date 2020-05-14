@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1789089358",
+    "firebase_url": "https://suntech-6c65c.firebaseio.com",
+    "project_id": "suntech-6c65c",
+    "storage_bucket": "suntech-6c65c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1789089358:android:94eb5ca77f3c587eb2551f",
+        "android_client_info": {
+          "package_name": "com.example.tabsexample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1789089358-nu7sel7eufpmofkpqsrqoitojo5odgl6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tabsexample",
+            "certificate_hash": "e11424abcc27c7ee8c6968b0969b8b3d10874c5c"
+          }
+        },
+        {
+          "client_id": "1789089358-ij26jtffpq6ecshgdotiihifomh72bkh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvVh-jbFhOqx6dW-WIMFw1G9qUmEfYWbU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1789089358-ij26jtffpq6ecshgdotiihifomh72bkh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

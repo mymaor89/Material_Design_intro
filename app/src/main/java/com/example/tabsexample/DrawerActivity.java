@@ -37,9 +37,9 @@ public class DrawerActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 FragmentManager fm;
                 FragmentTransaction ft;
+                drawerLayout.closeDrawers();
                 switch (item.getItemId()) {
                     case R.id.nav_hardware:
-                        drawerLayout.closeDrawers();
                         //Toast.makeText(DrawerActivity.this, "hardware", Toast.LENGTH_LONG).show();
                         fm = getSupportFragmentManager();
                         HardwareFragment hf = new HardwareFragment();
@@ -49,7 +49,6 @@ public class DrawerActivity extends AppCompatActivity {
                         ft.commit();
                         break;
                     case R.id.nav_software:
-                        drawerLayout.closeDrawers();
                         //Toast.makeText(DrawerActivity.this, "software", Toast.LENGTH_LONG).show();
                         fm = getSupportFragmentManager();
                         SoftwareFragment sf = new SoftwareFragment();
@@ -59,7 +58,6 @@ public class DrawerActivity extends AppCompatActivity {
                         ft.commit();
                         break;
                     case R.id.nav_lecturer:
-                        drawerLayout.closeDrawers();
                         Toast.makeText(DrawerActivity.this, "lecturer", Toast.LENGTH_LONG).show();
                         break;
                 }

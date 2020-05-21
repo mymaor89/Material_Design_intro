@@ -1,15 +1,15 @@
 package com.example.tabsexample;
 
-public class issueModel {
+public class IssueModel {
 
     private String reporter;
     private String title;
 
-    public issueModel() {
+    public IssueModel() {
 
     }
 
-    public issueModel(String reporter, String title) {
+    public IssueModel(String reporter, String title) {
         this.reporter = reporter;
         this.title = title;
     }

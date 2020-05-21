@@ -7,4 +7,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hello_software_fragment">Hello from software</string>
     <string name="hello_hardware_fragment">Hello from hardware</string>
+    <string-array name="categories">
+        <item>Software</item>
+        <item>Hardware</item>
+        <item>Lecturers</item>
+    </string-array>
 </resources>

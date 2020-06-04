@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 
@@ -28,6 +30,8 @@ public class AddIssueFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private Spinner spinner;
+    private EditText editTextTitle, editTextReporter;
+    private Button btnSend;
     public AddIssueFragment() {
         // Required empty public constructor
     }

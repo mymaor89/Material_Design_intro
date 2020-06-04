@@ -2,8 +2,11 @@ package com.example.tabsexample;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +16,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.IntSummaryStatistics;
+import java.util.Map;
 
 
 /**
@@ -32,6 +44,12 @@ public class AddIssueFragment extends Fragment {
     private Spinner spinner;
     private EditText editTextTitle, editTextReporter;
     private Button btnSend;
+    private FirebaseFirestore db;
+    private FragmentManager fm;
+    private FragmentTransaction ft;
+    private final String TITLE = "title";
+    private final String REPORTER = "reporter";
+    private final String CATEGORY = "category";
     public AddIssueFragment() {
         // Required empty public constructor
     }
@@ -67,10 +85,56 @@ public class AddIssueFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         spinner = getView().findViewById(R.id.spinner_category);
+        editTextReporter = getView().findViewById(R.id.editTextReporter);
+        editTextTitle = getView().findViewById(R.id.editTextDescription);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.categories, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        db = FirebaseFirestore.getInstance();
+        btnSend = getView().findViewById(R.id.button_send_issue);
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String category = spinner.getSelectedItem().toString();
+                String title = editTextTitle.getText().toString();
+                String reporter = editTextReporter.getText().toString();
+                //IssueModel issueModel = new IssueModel(reporter,title,category);
+                Map<String, Object> issue = new HashMap<>();
+                issue.put(TITLE, title);
+                issue.put(REPORTER, reporter);
+                issue.put(CATEGORY, category);
+                db.collection("Issues").document().set(issue)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                fm = getActivity().getSupportFragmentManager();
+                                ft = fm.beginTransaction();
+                                Fragment frag;
+                                switch (category) {
+                                    case "Software":
+                                        frag = new SoftwareFragment();
+                                        break;
+                                    case "Hardware":
+                                        frag = new HardwareFragment();
+                                        break;
+                                    default:
+                                        frag = new SoftwareFragment();
+                                }
+
+                                ft.replace(R.id.frag_container, frag);
+                                ft.addToBackStack(null);
+                                ft.commit();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), "Error see logs", Toast.LENGTH_SHORT).show();
+                        Log.e("Firestore", e.getMessage());
+                    }
+                });
+            }
+        });
     }
 
     @Override

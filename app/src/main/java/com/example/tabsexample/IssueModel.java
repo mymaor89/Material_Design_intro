@@ -3,15 +3,25 @@ package com.example.tabsexample;
 public class IssueModel {
 
     private String reporter;
-    private String title;
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    private String title;
+    private String category;
     public IssueModel() {
 
     }
 
-    public IssueModel(String reporter, String title) {
+    public IssueModel(String reporter, String title, String category) {
         this.reporter = reporter;
         this.title = title;
+        this.category = category;
     }
 
     public String getReporter() {

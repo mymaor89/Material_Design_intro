@@ -60,7 +60,7 @@ public class SoftwareFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.setFirestoreSettings(new FirebaseFirestoreSettings.Builder().setPersistenceEnabled(false).build());
+        //db.setFirestoreSettings(new FirebaseFirestoreSettings.Builder().setPersistenceEnabled(false).build());
         Query query = FirebaseFirestore.getInstance().collection("Issues");
         FirestoreRecyclerOptions<IssueModel> options = new FirestoreRecyclerOptions.Builder<IssueModel>()
                 .setQuery(query, IssueModel.class).build();

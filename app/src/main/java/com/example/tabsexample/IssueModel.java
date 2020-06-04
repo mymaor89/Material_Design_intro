@@ -4,14 +4,21 @@ public class IssueModel {
 
     private String reporter;
     private String title;
+    private String category;
+
+
+    public IssueModel(String reporter, String title, String category) {
+        this.reporter = reporter;
+        this.title = title;
+        this.category = category;
+    }
 
     public IssueModel() {
 
     }
 
-    public IssueModel(String reporter, String title) {
-        this.reporter = reporter;
-        this.title = title;
+    public String getCategory() {
+        return category;
     }
 
     public String getReporter() {
@@ -28,6 +35,10 @@ public class IssueModel {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
 }

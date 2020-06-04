@@ -2,15 +2,28 @@ package com.example.tabsexample;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -28,6 +41,12 @@ public class AddIssueFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private Spinner spinner;
+    private Button bntSend;
+    private EditText editTextReporter, editTextTitle;
+    private FirebaseFirestore firebaseFirestore;
+    private FirebaseFirestore db;
+    private FragmentManager fm;
+    private FragmentTransaction ft;
     public AddIssueFragment() {
         // Required empty public constructor
     }
@@ -63,10 +82,47 @@ public class AddIssueFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         spinner = getView().findViewById(R.id.spinner_category);
+        db = FirebaseFirestore.getInstance();
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.categories, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        bntSend = getView().findViewById(R.id.button_send_issue);
+        editTextTitle = getView().findViewById(R.id.editTextDescription);
+        editTextReporter = getView().findViewById(R.id.editTextReporter);
+        fm = getActivity().getSupportFragmentManager();
+        bntSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "click", Toast.LENGTH_SHORT).show();
+                IssueModel im = new IssueModel();
+                im.setCategory(spinner.getSelectedItem().toString());
+                im.setReporter(editTextReporter.getText().toString());
+                im.setTitle(editTextTitle.getText().toString());
+                Map<String, Object> issue = new HashMap<>();
+                issue.put("Title", im.getTitle());
+                issue.put("Reporter", im.getReporter());
+                issue.put("Category", im.getCategory());
+                db.collection("Issues").document().set(issue)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                HardwareFragment hf = new HardwareFragment();
+                                ft = fm.beginTransaction();
+                                ft.replace(R.id.frag_container, hf);
+                                ft.addToBackStack(null);
+                                ft.commit();
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+            }
+        });
+
     }
 
     @Override
